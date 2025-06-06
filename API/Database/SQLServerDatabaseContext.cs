@@ -1,6 +1,7 @@
 ﻿using API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using API.Models;
 
 namespace API.Database
 {
@@ -22,5 +23,8 @@ namespace API.Database
 
             base.OnConfiguring(optionsBuilder);
         }
+        public DbSet<API.Models.Customer> Customer { get; set; } = default!;
+        public DbSet<API.Models.Order> Order { get; set; } = default!;
+        public DbSet<API.Models.Product> Product { get; set; } = default!;
     }
 }
