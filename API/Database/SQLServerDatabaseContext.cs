@@ -9,9 +9,14 @@ namespace API.Database
     {
         private readonly IOptions<AppSettings> _appSettings;
 
+        public DbSet<Customer> Customer { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<Product> Product { get; set; }
+
         // Default constructor for dependency injection
-        public SQLServerDatabaseContext(DbContextOptions options) : base(options)
+        public SQLServerDatabaseContext(DbContextOptions options, IOptions<AppSettings> appSettings) : base(options)
         {
+            _appSettings = appSettings;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,8 +28,5 @@ namespace API.Database
 
             base.OnConfiguring(optionsBuilder);
         }
-        public DbSet<API.Models.Customer> Customer { get; set; } = default!;
-        public DbSet<API.Models.Order> Order { get; set; } = default!;
-        public DbSet<API.Models.Product> Product { get; set; } = default!;
     }
 }

@@ -1,4 +1,5 @@
 using API.Database;
+using API.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace API
@@ -9,10 +10,22 @@ namespace API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            var connectionString = builder.Configuration.GetSection("Database")["ConnectionString"];
+            connectionString = connectionString
+                .Replace("${DB_SERVER}", Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost")
+                .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "BuildingBlocks")
+                .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "blocksuser")
+                .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "blocksuser");
 
+
+            // Add services to the container.
             builder.Services.AddDbContext<SQLServerDatabaseContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetSection("Database")["ConnectionString"]));
+                options.UseSqlServer(connectionString));
+
+            // Configure AppSettings for dependency injection
+            builder.Services.Configure<AppSettings>(options => {
+                options.ConnectionString = connectionString;
+            });
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

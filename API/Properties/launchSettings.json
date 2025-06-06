@@ -21,10 +21,16 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        "ASPNETCORE_HTTP_PORTS": "8080",
+        "DB_SERVER": "192.168.101.103",
+        "DB_NAME": "BuildingBlocks",
+        "DB_USER": "blocksuser",
+        "DB_PASSWORD": "blocksuser"
       },
-      "publishAllPorts": true,
-      "useSSL": true
+      "publishAllPorts": false,
+      "useSSL": true,
+      "httpPort": 8080,
+      "sslPort": 8081
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"
