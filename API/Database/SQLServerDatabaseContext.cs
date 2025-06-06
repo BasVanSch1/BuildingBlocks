@@ -12,6 +12,7 @@ namespace API.Database
         public DbSet<Customer> Customer { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<Suppliers> Suppliers { get; set; }
 
         // Default constructor for dependency injection
         public SQLServerDatabaseContext(DbContextOptions options, IOptions<AppSettings> appSettings) : base(options)

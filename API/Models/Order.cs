@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Models
 {
@@ -9,6 +10,7 @@ namespace API.Models
         public string CustomerName { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
+        [Precision(11, 2)]
         public decimal TotalPrice { get; set; }
         public string Status { get; set; } // e.g., "Pending", "Shipped", "Delivered"
         public DateTime OrderDate { get; set; }

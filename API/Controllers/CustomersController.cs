@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Database;
 using API.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers
 {
@@ -78,6 +79,20 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
+            if (customer.Username.IsNullOrEmpty() || customer.Name.IsNullOrEmpty() || customer.Password.IsNullOrEmpty())
+            {
+                return BadRequest("Username, Name, and Password are required fields.");
+            }
+
+            try
+            {
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(customer.Password);
+                customer.Password = hashedPassword;
+            } catch (Exception ex)
+            {
+                return BadRequest($"Error hashing password: {ex.Message}");
+            }
+
             _context.Customer.Add(customer);
             try
             {

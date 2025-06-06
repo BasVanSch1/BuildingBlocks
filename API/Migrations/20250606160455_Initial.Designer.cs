@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(SQLServerDatabaseContext))]
-    [Migration("20250606150231_initial")]
-    partial class initial
+    [Migration("20250606160455_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,11 +30,11 @@ namespace API.Migrations
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("HashedPassword")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -75,7 +75,8 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(11, 2)
+                        .HasColumnType("decimal(11,2)");
 
                     b.HasKey("Id");
 
@@ -93,7 +94,8 @@ namespace API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("CostPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(11, 2)
+                        .HasColumnType("decimal(11,2)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -104,7 +106,8 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(11, 2)
+                        .HasColumnType("decimal(11,2)");
 
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");

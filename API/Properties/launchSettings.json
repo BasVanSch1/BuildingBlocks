@@ -30,7 +30,8 @@
       "publishAllPorts": false,
       "useSSL": true,
       "httpPort": 8080,
-      "sslPort": 8081
+      "sslPort": 8081,
+      "containerName": "b2b-api"
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json"
