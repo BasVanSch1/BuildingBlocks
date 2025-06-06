@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.Database;
 
-namespace API.Database
+namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
