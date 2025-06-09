@@ -7,8 +7,10 @@ namespace API.Models
     public class Order
     {
         public int Id { get; set; }
-        public string CustomerName { get; set; }
-        public Product Product { get; set; }
+        public Customer? Customer { get; set; }
+        public int CustomerId { get; set; } // Foreign key to Customer
+        public Product? Product { get; set; }
+        public int ProductId { get; set; } // Foreign key to Product
         public int Quantity { get; set; }
         [Precision(11, 2)]
         public decimal TotalPrice { get; set; }

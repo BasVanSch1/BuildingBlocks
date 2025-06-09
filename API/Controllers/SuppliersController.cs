@@ -5,54 +5,54 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using API.Models;
 using API.Data;
+using API.Models;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class SuppliersController : ControllerBase
     {
         private readonly SQLServerDatabaseContext _context;
 
-        public ProductsController(SQLServerDatabaseContext context)
+        public SuppliersController(SQLServerDatabaseContext context)
         {
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Suppliers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+        public async Task<ActionResult<IEnumerable<Suppliers>>> GetSuppliers()
         {
-            return await _context.Product.ToListAsync();
+            return await _context.Suppliers.ToListAsync();
         }
 
-        // GET: api/Products/5
+        // GET: api/Suppliers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        public async Task<ActionResult<Suppliers>> GetSuppliers(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var suppliers = await _context.Suppliers.FindAsync(id);
 
-            if (product == null)
+            if (suppliers == null)
             {
                 return NotFound();
             }
 
-            return product;
+            return suppliers;
         }
 
-        // PUT: api/Products/5
+        // PUT: api/Suppliers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<IActionResult> PutSuppliers(int id, Suppliers suppliers)
         {
-            if (id != product.Id)
+            if (id != suppliers.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(product).State = EntityState.Modified;
+            _context.Entry(suppliers).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!SupplierExists(id))
                 {
                     return NotFound();
                 }
@@ -70,39 +70,39 @@ namespace API.Controllers
                 }
             }
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("GetSuppliers", new { id = suppliers.Id }, suppliers);
         }
 
-        // POST: api/Products
+        // POST: api/Suppliers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Suppliers>> PostSuppliers(Suppliers suppliers)
         {
-            _context.Product.Add(product);
+            _context.Suppliers.Add(suppliers);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            return CreatedAtAction("GetSuppliers", new { id = suppliers.Id }, suppliers);
         }
 
-        // DELETE: api/Products/5
+        // DELETE: api/Suppliers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteSuppliers(int id)
         {
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
+            var suppliers = await _context.Suppliers.FindAsync(id);
+            if (suppliers == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(product);
+            _context.Suppliers.Remove(suppliers);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ProductExists(int id)
+        private bool SupplierExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Suppliers.Any(e => e.Id == id);
         }
     }
 }

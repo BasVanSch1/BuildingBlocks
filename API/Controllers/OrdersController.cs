@@ -52,6 +52,11 @@ namespace API.Controllers
                 return BadRequest();
             }
 
+            if (!CustomerExists(order.CustomerId) || !ProductExists(order.ProductId))
+            {
+                return BadRequest("Invalid Customer or Product ID.");
+            }
+
             _context.Entry(order).State = EntityState.Modified;
 
             try
@@ -70,7 +75,7 @@ namespace API.Controllers
                 }
             }
 
-            return NoContent();
+            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }
 
         // POST: api/Orders
@@ -78,6 +83,16 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Order>> PostOrder(Order order)
         {
+            if (!CustomerExists(order.CustomerId) || !ProductExists(order.ProductId))
+            {
+                return BadRequest("Invalid Customer or Product ID.");
+            }
+
+            if (order.Quantity <= 0)
+            {
+                return BadRequest("Quantity must be greater than zero.");
+            }
+
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
@@ -103,6 +118,26 @@ namespace API.Controllers
         private bool OrderExists(int id)
         {
             return _context.Order.Any(e => e.Id == id);
+        }
+
+        private bool CustomerExists(string username)
+        {
+            return _context.Customer.Any(e => e.Username == username);
+        }
+
+        private bool CustomerExists(int id)
+        {
+            return _context.Customer.Any(e => e.Id == id);
+        }
+
+        private bool ProductExists(int id)
+        {
+            return _context.Product.Any(e => e.Id == id);
+        }
+
+        private bool SupplierExists(int id)
+        {
+            return _context.Suppliers.Any(e => e.Id == id);
         }
     }
 }

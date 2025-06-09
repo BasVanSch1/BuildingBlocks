@@ -31,7 +31,7 @@ namespace API.Controllers
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(string id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id)
         {
             var customer = await _context.Customer.FindAsync(id);
 
@@ -46,9 +46,9 @@ namespace API.Controllers
         // PUT: api/Customers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(string id, Customer customer)
+        public async Task<IActionResult> PutCustomer(int id, Customer customer)
         {
-            if (id != customer.Username)
+            if (id != customer.Id)
             {
                 return BadRequest();
             }
@@ -71,7 +71,7 @@ namespace API.Controllers
                 }
             }
 
-            return NoContent();
+            return CreatedAtAction("GetCustomer", new { id = customer.Username }, customer);
         }
 
         // POST: api/Customers
@@ -79,16 +79,12 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            if (customer.Username.IsNullOrEmpty() || customer.Name.IsNullOrEmpty() || customer.Password.IsNullOrEmpty())
-            {
-                return BadRequest("Username, Name, and Password are required fields.");
-            }
-
             try
             {
                 var hashedPassword = BCrypt.Net.BCrypt.HashPassword(customer.Password);
                 customer.Password = hashedPassword;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return BadRequest($"Error hashing password: {ex.Message}");
             }
@@ -129,9 +125,15 @@ namespace API.Controllers
             return NoContent();
         }
 
-        private bool CustomerExists(string id)
+
+        private bool CustomerExists(string username)
         {
-            return _context.Customer.Any(e => e.Username == id);
+            return _context.Customer.Any(e => e.Username == username);
+        }
+
+        private bool CustomerExists(int id)
+        {
+            return _context.Customer.Any(e => e.Id == id);
         }
     }
 }
