@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using API.Models;
 
-namespace API.Database
+namespace API.Data
 {
     public class SQLServerDatabaseContext : DbContext
     {
