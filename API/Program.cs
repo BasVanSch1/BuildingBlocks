@@ -12,10 +12,10 @@ namespace API
 
             var connectionString = builder.Configuration.GetSection("Database")["ConnectionString"];
             connectionString = connectionString
-                .Replace("${DB_SERVER}", Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost")
+                .Replace("${DB_SERVER}", Environment.GetEnvironmentVariable("DB_SERVER") ?? "10.0.2.4")
                 .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "BuildingBlocks")
-                .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "blocksuser")
-                .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "blocksuser");
+                .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "sa")
+                .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "defaultpasswordwhichwillnotwork");
 
 
             // Add services to the container.
